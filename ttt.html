@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Token to MetaMask</title>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 50px;">
+        <button onclick="addTokenFunction()" class="add">Add Token To MetaMask</button>
+    </div>
+
+    <script>
+        const tokenAddress = '0xc00971105e61274c8a5cd5a88fe7e037d935b513';
+        const tokenSymbol = 'HelloCoin';
+        const tokenDecimals = 18;
+        const tokenImage = 'https://assets.codepen.io/4625073/1.jpeg';
+
+        async function addTokenFunction() {
+            if (typeof window.ethereum === 'undefined') {
+                alert('MetaMask is not installed. Please install it to use this feature.');
+                return;
+            }
+
+            try {
+                const wasAdded = await ethereum.request({
+                    method: 'wallet_watchAsset',
+                    params: {
+                        type: 'ERC20',
+                        options: {
+                            address: tokenAddress,
+                            symbol: tokenSymbol,
+                            decimals: tokenDecimals,
+                            image: tokenImage,
+                        },
+                    },
+                });
+
+                if (wasAdded) {
+                    alert('Token added successfully!');
+                } else {
+                    alert('Token addition declined.');
+                }
+            } catch (error) {
+                console.error('Error adding token:', error);
+                alert('An error occurred. Check the console for details.');
+            }
+        }
+    </script>
+</body>
+</html>
